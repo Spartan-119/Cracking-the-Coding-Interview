@@ -1,3 +1,6 @@
+#############################################
+# Approach 1
+
 def checkPermutations1(st1, st2):
 	if len(st1) != len(st2):
 		return False
