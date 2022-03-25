@@ -54,4 +54,9 @@ def checkPermutations2(st1, st2):
 
 	return True
 
+
+############################################
+# Testing the functions
+
+print(checkPermutations1('abcd', 'dbac'))
 print(checkPermutations2('abcd', 'dbac'))
