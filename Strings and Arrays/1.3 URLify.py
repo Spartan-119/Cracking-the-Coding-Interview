@@ -1,5 +1,3 @@
-# Approach One
-
 '''
 Replaces spaces with %20 in-place
 and returns new length of modified string.
@@ -29,31 +27,24 @@ def URLify(url):
 	if new_length > 1000:
 		return -1
 
-	# start filling characters from the end.
-	index = new_length - 1
-
 	url = list(url)
+	result = []
 
-	# filling the string array
-	for i in range(n - 2, new_length - 2):
-		url.append('0')
-
-	# filling the rest of the string from the end
-	for j in range(n - 1, 0, -1):
-		# inserts %20 in place of space
-		if url[j] == ' ':
-			url[index] = '0'
-			url[index - 1] = '2'
-			url[index - 2] = '%'
-			index = index - 3
+	# start filling the characters from the front
+	for i in range(len(url)):
+		if url[i] == ' ':
+			result.append('%')
+			result.append('2')
+			result.append('0')
 		else:
-			url[index] = url[j]
-			index -= 1
+			result.append(url[i])
 
-	return ''.join(url)
+	# return the result in the string format
+	return ' '.join([str(elem) for elem in result])
+
 
 #############################
 
 # Testing the function
-url = "Mr John Smith "
+url = "Mr John  Smith "
 print(URLify(url))
