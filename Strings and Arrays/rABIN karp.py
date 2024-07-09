@@ -1,24 +1,20 @@
 # implementing rABIN karp algo for string matching
 
-def rabin_karp(source, search):
-    """
-    Returns the starting index of the first occurrence of search in source,
-    or -1 if not found.
-    """
-    source_len = len(source)
-    search_len = len(search)
-    if search_len == 0:
-        return 0
+import unittest
 
-    hash_source = hash(search)
-    hash_search = hash(search[0])
-    result = -1
-    for i in range(source_len - search_len + 1):
-        if hash_source == hash(source[i:i+search_len]):
-            if source[i:i+search_len] == search:
-                result = i
-                break
-        hash_source = (hash_source * 256 - ord(source[i]) * 256**(search_len-1)) // 256
-        if i < source_len - search_len:
-            hash_search = (hash_search * 256 - ord(source[i+1]) * 256**(search_len-1)) // 256
-    return result
+class RabinKarp:
+    def __init__(self, base = 256, prime = 101):
+        self.base = base
+        self.prime = prime
+
+    def pattern_matched(self, text: str, pattern: str) -> bool:
+        # the first and obvious edge case
+        if not pattern or len(pattern) > len(text):
+            return False
+        
+        n, m = len(text), len(pattern)
+        
+
+class TestRabinKarp(unittest.TestCase):
+    def setUp(self) -> None:
+        self.rabin_karp = RabinKarp()
