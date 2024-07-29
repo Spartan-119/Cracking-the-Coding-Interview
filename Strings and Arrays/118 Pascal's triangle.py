@@ -23,7 +23,8 @@ import unittest
 from typing import *
 
 class solution:
-    pass
+    def generate(self, numRows: int) -> List[List[int]]:
+        pass
 
 class TestPascalsTriangle:
     pass
