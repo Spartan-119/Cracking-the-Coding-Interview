@@ -37,7 +37,24 @@ from typing import *
 
 class Solution:
     def replaceWords(self, dictionary: List[str], sentence: str) -> str:
-        pass
+        def starts_with(root, word) -> bool:
+            return root == word[:len(root)]
+        
+        result = []
+        words_list = sentence.split()
+
+        for word in words_list:
+            # need a flag
+            replaced = False
+            for root in dictionary:
+                if starts_with(root, word):
+                    result.append(root)
+                    replaced = True
+                    break
+            if not replaced:
+                result.append(word)
+
+        return " ".join(result)
 
 class TestReplaceWords(unittest.TestCase):
     def setUp(self):
