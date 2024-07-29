@@ -47,5 +47,63 @@ from typing import *
 
 class Solution:
     def countAndSay(self, n: int) -> str:
-        pass
+        if n == 1:
+            return "1"
+        
+        prev = self.countAndSay(n - 1)
+        return self.RLE(prev)
 
+    def RLE(self, s: str) -> str:
+        if not s:
+            return ""
+        
+        res = []
+        count = 1
+        for i in range(1, len(s)):
+            if s[i] == s[i - 1]:
+                count += 1
+            else:
+                res.append(str(count) + s[i - 1])
+                count = 1
+        
+        # Add the last group
+        res.append(str(count) + s[-1])
+        
+        return ''.join(res)
+
+class TestCountAndSay(unittest.TestCase):
+    def setUp(self):
+        self.solution = Solution()
+
+    def test_n_equals_1(self):
+        self.assertEqual(self.solution.countAndSay(1), "1")
+
+    def test_n_equals_2(self):
+        self.assertEqual(self.solution.countAndSay(2), "11")
+
+    def test_n_equals_3(self):
+        self.assertEqual(self.solution.countAndSay(3), "21")
+
+    def test_n_equals_4(self):
+        self.assertEqual(self.solution.countAndSay(4), "1211")
+
+    def test_n_equals_5(self):
+        self.assertEqual(self.solution.countAndSay(5), "111221")
+
+    def test_n_equals_6(self):
+        self.assertEqual(self.solution.countAndSay(6), "312211")
+
+    def test_n_equals_10(self):
+        self.assertEqual(self.solution.countAndSay(10), "13211311123113112211")
+
+    def test_RLE_single_char(self):
+        self.assertEqual(self.solution.RLE("1"), "11")
+
+    def test_RLE_repeated_chars(self):
+        self.assertEqual(self.solution.RLE("111"), "31")
+
+    def test_RLE_mixed_chars(self):
+        self.assertEqual(self.solution.RLE("1223334"), "11223314")  # Corrected expected output
+
+if __name__ == '__main__':
+    unittest.main()
