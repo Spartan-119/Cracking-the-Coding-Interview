@@ -35,30 +35,75 @@ sentence does not have leading or trailing spaces.
 import unittest
 from typing import *
 
+# 1. BRUTE FORCE METHOD
+# class Solution:
+#     def replaceWords(self, dictionary: List[str], sentence: str) -> str:
+#         def starts_with(root, word) -> bool:
+#             return root == word[:len(root)]
+        
+#         result = []
+#         words_list = sentence.split()
+
+#         for word in words_list:
+#             # need a flag
+#             replaced = False
+#             for root in dictionary:
+#                 if starts_with(root, word):
+#                     result.append(root)
+#                     replaced = True
+#                     break
+#             if not replaced:
+#                 result.append(word)
+
+#         return " ".join(result)
+
+# 2. TRIE
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end_of_word = False
+    
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_end_of_word = True
+
+    def search_root(self, word):
+        node = self.root
+        root = ""
+        for char in word:
+            if char in node.children:
+                root += char
+                node = node.children[char]
+                if node.is_end_of_word:
+                    return root # return the root as soon as we fin it
+            else:
+                break
+        return word # return the original word if no root is found
+
 class Solution:
     def replaceWords(self, dictionary: List[str], sentence: str) -> str:
-        def starts_with(root, word) -> bool:
-            return root == word[:len(root)]
-        
-        result = []
+        # Build the Trie from the dictionary
+        trie = Trie()
+        for root in dictionary:
+            trie.insert(root)
+
+        # Split the sentence into words and replace them
         words_list = sentence.split()
+        result = []
 
         for word in words_list:
-            # need a flag
-            replaced = False
-            for root in dictionary:
-                if starts_with(root, word):
-                    result.append(root)
-                    replaced = True
-                    break
-            if not replaced:
-                result.append(word)
+            root = trie.search_root(word)
+            result.append(root)
 
         return " ".join(result)
-
-class TestReplaceWords(unittest.TestCase):
-    def setUp(self):
-        self.solution = Solution()
-
-if __name__ == '__main__':
-    unittest.main()
+    
+sol = Solution()
+print(sol.replaceWords(["cat", "bat", "rat"], "the cattle was rattled by the battery"))
